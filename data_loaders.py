@@ -41,6 +41,7 @@ def load_WRFSCM_training_data(fpath, seed=None):
         X_test[:,i] = (X_test[:,i]-Xbar[i])/Xsig[i]
 
     y_train = (y_train-ybar)/ysig
+    y_test = (y_test-ybar)/ysig
 
     X_train = torch.tensor(X_train, dtype=torch.float32)
     X_test = torch.tensor(X_test, dtype=torch.float32)

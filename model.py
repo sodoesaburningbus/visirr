@@ -14,8 +14,7 @@ class irr_net(nn.Module):
         super(irr_net, self).__init__()
 
         # Define the desired layers
-        n_outs = 3
-        self.conv1 = nn.Conv1d(1,n_outs,3,padding=0)
+        self.conv1 = nn.Conv1d(1,3,3,padding=0)
 
         # Define layer that merges the inputs
         self.dense1 = nn.Linear(68,34)

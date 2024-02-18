@@ -8,7 +8,7 @@ fpath = 'wrfvars.2018-07-21_11-00-00.nc'
 
 # Epochs and batch size
 n_epochs = 50
-batch_size = 20
+batch_size = 40
 
 #####  END OPTIONS  #####
 
@@ -74,13 +74,19 @@ for epoch in range(n_epochs):
 model.load_state_dict(best_weights)
 
 # Do predictions and print accuracies
-y_pred = np.array(np.round(np.squeeze(model(X_test).detach().numpy())))*ysig+ybar
-y_test = np.array(np.round(np.squeeze(y_test.detach().numpy())))*ysig+ybar
+y_pred = np.array(np.squeeze(model(X_test).detach().numpy()))
+y_test = np.array(np.squeeze(y_test.detach().numpy()))
+
+r2 = np.mean(y_pred*y_test)
+
+y_pred = y_pred*ysig+ybar
+y_test = y_test*ysig+ybar
 
 rmse = np.sqrt(np.mean((y_pred-y_test)**2))
-mse = np.mean((y_pred-y_test)**2)
+mae = np.mean(np.abs(y_pred-y_test))
 mbe = np.mean(y_pred-y_test)
 
 print('RMSE: ', rmse)
-print('MSE: ', mse)
+print('MAE: ', mae)
 print('MBE: ', mbe)
+print('R2', r2)
