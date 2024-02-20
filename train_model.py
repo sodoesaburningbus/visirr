@@ -10,6 +10,9 @@ fpath = 'wrfvars.2018-07-21_11-00-00.nc'
 n_epochs = 50
 batch_size = 40
 
+# How many times to repeat training?
+n_training = 10
+
 #####  END OPTIONS  #####
 
 
@@ -24,21 +27,20 @@ import torch.optim as optim
 from model import irr_net
 from data_loaders import load_WRFSCM_training_data
 
-# Load the network
-model = irr_net()
-print(model)
-print(len(list(model.parameters())))
-
-### Train the network
-loss_fn = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-
 ### Load the data
 X_train, X_test, y_train, y_test, ybar, ysig = load_WRFSCM_training_data(fpath, seed=44)
 
 
-# Loop over epochs and batches
+# Set best loss to inifinity
 best_loss = np.inf
+    
+# Load the network
+model = irr_net()
+
+
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+loss_fn = nn.MSELoss()
+# Loop over epochs and batches
 for epoch in range(n_epochs):
 
     # Set model to training mode
@@ -86,7 +88,11 @@ rmse = np.sqrt(np.mean((y_pred-y_test)**2))
 mae = np.mean(np.abs(y_pred-y_test))
 mbe = np.mean(y_pred-y_test)
 
+print('-----------------------------------')
 print('RMSE: ', rmse)
 print('MAE: ', mae)
 print('MBE: ', mbe)
 print('R2', r2)
+
+# Save the best weights
+torch.save(model.state_dict(), 'IRR_NN.pt')

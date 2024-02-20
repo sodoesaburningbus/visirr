@@ -1,0 +1,29 @@
+netcdf wrfvars.2018-07-21_11-00-00 {
+dimensions:
+	time = 24 ;
+	nexps = 19250 ;
+variables:
+	int ExpID(nexps) ;
+		ExpID:long_name = "Experiment/Simulation ID" ;
+		ExpID:units = "None" ;
+	double VEGFRA(nexps) ;
+		VEGFRA:long_name = "WRF SCM Vegetation Fraction" ;
+		VEGFRA:units = "%" ;
+	double IRR(nexps) ;
+		IRR:long_name = "WRF Irrigation Amount" ;
+		IRR:units = "mm" ;
+	double SM(nexps) ;
+		SM:long_name = "WRF SCM Volumetric Soil Moisture" ;
+		SM:units = "m3/m3" ;
+	double LST(nexps, time) ;
+		LST:long_name = "WRF SCM Land Surface Temperature" ;
+		LST:units = "K" ;
+	double SimTime(nexps, time) ;
+		SimTime:long_name = "Seconds since simulation start: 2018-07-21_11:00:00" ;
+		SimTime:units = "s" ;
+
+// global attributes:
+		:START_DATE = "2018-07-21_11:00:00" ;
+		:TIME_DEF = "Times in each model simulation" ;
+		:NEXPS_DEF = "Number of simulations" ;
+}
